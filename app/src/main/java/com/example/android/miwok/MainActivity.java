@@ -19,6 +19,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -28,25 +30,55 @@ public class MainActivity extends AppCompatActivity {
 
         // Set the content of the activity to use the activity_main.xml layout file
         setContentView(R.layout.activity_main);
+        TextView textViewNumbers = (TextView) findViewById(R.id.numbers);
+        textViewNumbers.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openNumbersList(view);
+            }
+        });
+        TextView textViewPhrases = (TextView) findViewById(R.id.phrases);
+        textViewPhrases.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openPhrasesList(view);
+            }
+        });
+        TextView textViewFamily = (TextView) findViewById(R.id.family);
+        textViewFamily.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openFamilyList(view);
+            }
+        });
+
+        TextView textViewColors = (TextView) findViewById(R.id.colors);
+        textViewColors.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openColorsList(view);
+            }
+        });
+
     }
 
     public void openNumbersList(View view) {
-        Intent openNumberList = new Intent(MainActivity.class, NumbersActivity.class);
+        Intent openNumberList = new Intent(this, NumbersActivity.class);
         startActivity(openNumberList);
     }
 
     public void openFamilyList(View view) {
-        Intent openFamilyList = new Intent(MainActivity.class, FamilyActivity.class);
+        Intent openFamilyList = new Intent(this, FamilyActivity.class);
         startActivity(openFamilyList);
     }
 
     public void openColorsList(View view) {
-        Intent openFamilyList = new Intent(MainActivity.class, ColorsActivity.class);
+        Intent openFamilyList = new Intent(this, ColorsActivity.class);
         startActivity(openFamilyList);
     }
 
     public void openPhrasesList(View view) {
-        Intent openPhrasesList = new Intent(MainActivity.class, PhrasesActivity.class);
+        Intent openPhrasesList = new Intent(this, PhrasesActivity.class);
         startActivity(openPhrasesList);
     }
 }
