@@ -1,5 +1,7 @@
 package com.example.android.miwok;
 
+import android.content.Context;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -13,11 +15,14 @@ import java.util.ArrayList;
 public class PhrasesActivity extends AppCompatActivity {
 
     private MediaPlayer media;
+    private AudioManager mAudioManger;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_phrases);
+        mAudioManger = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+
         // Create a list of words
         final ArrayList<Word> words = new ArrayList<Word>();
         words.add(new Word("Where are you going?", "minto wuksus",  R.raw.phrase_where_are_you_going));
@@ -52,6 +57,22 @@ public class PhrasesActivity extends AppCompatActivity {
                 });
             }
         });
+        AudioManager.OnAudioFocusChangeListener audioFocusChangeListener = new AudioManager.OnAudioFocusChangeListener() {
+            @Override
+            public void onAudioFocusChange(int focusChange) {
+                if(focusChange==AudioManager.AUDIOFOCUS_LOSS_TRANSIENT||
+                        focusChange==AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK){
+                    media.pause();
+                    media.seekTo(0);
+                }else if(focusChange==AudioManager.AUDIOFOCUS_GAIN){
+                    media.start();
+                }else if(focusChange==AudioManager.AUDIOFOCUS_LOSS){
+                    if(media!=null)
+                        media.release();
+                }
+
+            }
+        };
 
     }
 
